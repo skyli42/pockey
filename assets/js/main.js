@@ -131,7 +131,6 @@ socket.on('update', function(msg) {
     var game = msg;
     var puck = game.puck
     var players = game.players;
-    console.log(typeof(game.players))
     var rink = game.rink;
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");

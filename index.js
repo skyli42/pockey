@@ -25,7 +25,6 @@ io.on('connection', function(socket) {
     }, 1000 / 60);
     socket.on("new player", function() {
         game.addPlayer(socket.client.id);
-        console.log("hi")
     })
     socket.on('disconnect', function() {
         game.removePlayer(socket.client.id);
