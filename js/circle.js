@@ -9,6 +9,7 @@ module.exports = class Circle{
 		//abs(sqrt((x1-h)^2+(y1-k)^2)-r)
 		var x = point.x;
 		var y = point.y;
+		var r= this.radius;
 		return Math.abs(Math.sqrt(Math.pow(x-this.x, 2)+Math.pow(y-this.y, 2))-r)
 	}
 	draw(canvas){

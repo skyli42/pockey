@@ -14,9 +14,12 @@ module.exports = class Box{
 		else return false;
 	}
 	collides(circle){
-		return collidesAngled(circle, 0);
+		return this.collidesAngled(circle, 0);
 	}
 	collidesAngled(circle, theta){
+		var width = this.width;
+		var height = this.height;
+		
 		var centerX = this.x+width/2;
 		var centerY = this.y+height/2;
 		var unrotatedCircleX = Math.cos(theta) * (circle.center.x - centerX) - Math.sin(theta)*(circle.center.y - centerY) + centerX;

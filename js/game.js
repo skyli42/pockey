@@ -5,7 +5,7 @@ var Vector = require("./vector");
 var Player = require('./player');
 module.exports = class Game {
     constructor() {
-        this.players = new Map();
+        this.players = {};
         this.rink = new Rink();
         this.r = 500;
         this.puck = new Puck(new Point(4700 / 2, 2000 / 2), this.r / 20);
@@ -13,105 +13,104 @@ module.exports = class Game {
     }
 
     update() {
-        function updatePlayer(value, key, map) {
-            var player = value;
+        for(var attr in this.players){
+            var player = this.players[attr];
+            this.collision();
             player.move();
-            console.log(player.pos)
+            
         }
-        this.players.forEach(updatePlayer);
     }
     movePlayer(id, data) {
-        var player = this.players.get(id);
+        // console.log('move')
+        var player = this.players[id];
         //update for player
-        if (data.dx != undefined) {
-            var dx = data.dx;
-            var dy = data.dy;
+        if (data.dX != undefined&&player!= undefined) {
+            var dx = data.dX;
+            var dy = data.dY;
             var alpha = data.alpha;
             var a = data.a;
             player.stickVelocity = a;
+            console.log(player.velocity)
+            console.log(player.pos)
             player.angle = alpha / 180 * Math.PI;
             player.velocity.x = dx / 100.0;
             player.velocity.y = dy / 100.0;
         }
     }
     addPlayer(id) {
-        console.log(this.r * 2)
         var player = new Player(new Point(2 * this.r, 2 * this.r), 0, this.r / 10);
-        this.players.set(id, player);
+        this.players[id] = player;
     }
     removePlayer(id) {
-            this.players.delete(id);
-        }
-        // draw(canvas) {
-        // 	this.rink.draw(canvas);
-        // 	for(var i=0; i<this.players.length; i++){
-        // 		this.players[i].draw(canvas);
-        // 	}
-        // 	this.puck.draw(canvas);
-        // }
+        delete this.players[id];
+    }
     collision() {
-        puckCollision();
-        for (var i = 0; i < players.length; i++) {
-            for (var j = i + 1; j < players.length; j++) {
-                if (players[i].collision.collidesBox(players[j].collision)) {
-                    players[i].velocity.x = 0;
-                    players[i].velocity.y = 0;
-                    players[j].velocity.x = 0;
-                    players[j].velocity.y = 0;
+        this.puckCollision();
+        var players = this.players;
+        for (var it in this.players) {
+            for (var iq in this.players) {
+                if(it != iq)
+                if (players[it].collision.collidesBox(players[iq].collision)) {
+                    players[it].velocity.x = 0;
+                    players[it].velocity.y = 0;
+                    players[iq].velocity.x = 0;
+                    players[iq].velocity.y = 0;
                 }
             }
         }
     }
 
     puckCollision() {
-        var y = puck.center.y;
-        var x = puck.center.x;
-        var r = puck.r;
+        var puck = this.puck;
+        var y = this.puck.pos.y;
+        var x = this.puck.pos.x;
+        var r = this.puck.r;
         // first, check collision with bottom wall
-        if (y - r <= 0 && x - r >= Rink.r && x + r <= Rink.width - Rink.r) {
+        if (y - r <= 0 && x - r >= this.rink.r && x + r <= this.rink.width - this.rink.r) {
             console.log("bottom wall collision");
-            puckDeflect();
+            this.puckDeflect();
         }
         // next, check collision with left wall
-        if (x - r <= 0 && y - r >= Rink.r && y + r <= Rink.height - Rink.r) {
+        if (x - r <= 0 && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
             console.log("left wall collision");
-            puckDeflect();
+            this.puckDeflect();
         }
         // next, check collision with top wall
-        if (y + r >= Rink.height && x - r >= Rink.r && x + r <= Rink.width - Rink.r) {
+        if (y + r >= this.rink.height && x - r >= this.rink.r && x + r <= this.rink.width - this.rink.r) {
             console.log("top wall collision");
-            puckDeflect();
+            this.puckDeflect();
         }
         // next, check collision with right wall
-        if (x + r >= Rink.width && y - r >= Rink.r && y + r <= Rink.height - Rink.r) {
+        if (x + r >= this.rink.width && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
 
             console.log("right wall collision");
-            puckDeflect();
+            this.puckDeflect();
         }
-        for (var i = 0; i < Rink.circles.length; i++) {
-            var circle = Rink.circles[i];
-            if (circle.distanceToPoint(puck.center) <= r) {
+        for (var i = 0; i < this.rink.circles.length; i++) {
+            var circle = this.rink.circles[i];
+            if (circle.distanceToPoint(puck.pos) <= r) {
                 console.log("collided with circle?");
                 switch (quadrant) {
                     case 1: // top right circle
-                        if (x <= Rink.width && x >= Rink.width - Rink.r && y >= Rink.r * 3 && y <= Rink.height) console.log("yeah, quad 1 collision");
+                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= this.rink.r * 3 && y <= this.rink.height) console.log("yeah, quad 1 collision");
                     case 2: // top left circle
-                        if (x <= Rink.r && x >= 0 && y >= Rink.r && y <= Rink.r * 2) console.log("yeah quad 2 collision");
+                        if (x <= this.rink.r && x >= 0 && y >= this.rink.r && y <= this.rink.r * 2) console.log("yeah quad 2 collision");
                     case 3: // bottom left circle
-                        if (x <= Rink.r && x >= 0 && y >= 0 && y <= Rink.r) console.log("yeah quad 3 collision");
+                        if (x <= this.rink.r && x >= 0 && y >= 0 && y <= this.rink.r) console.log("yeah quad 3 collision");
                     case 4: // bottom right circle
-                        if (x <= Rink.width && x >= Rink.width - Rink.r && y >= 0 && y <= Rink.r) console.log("yeah quad 4 collision");
+                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= 0 && y <= this.rink.r) console.log("yeah quad 4 collision");
                 }
             }
         }
-        for (var i = 0; i < Rink.goals.length; i++) {
-            var goal = Rink.goals[i];
+        for (var i = 0; i < this.rink.goals.length; i++) {
+            var goal = this.rink.goals[i];
             console.log("puck collides with scoreBox " + goal.side + " ? " + goal.scoreBox.collides(puck.circle));
             console.log("puck collides with bottomBox " + goal.side + " ? " + goal.bottomBox.collides(puck.circle));
             console.log("puck collides with leftBox " + goal.side + " ? " + goal.leftBox.collides(puck.circle));
             console.log("puck collides with rightBox " + goal.side + " ? " + goal.rightBox.collides(puck.circle));
         }
-        for (var i = 0; i < players.length; i++) {
+        for (var i in this.players) {
+            var players = this.players;
             console.log("puck collides with stick of " + players[i].id + " ? " + players[i].stick.collidesAngled(puck.circle, players[i].angle));
             if (players[i].stick.collidesAngled(puck.circle, players[i].angle)) {
                 shot(players[i]);
@@ -120,11 +119,12 @@ module.exports = class Game {
 
     }
     puckDeflect() {
-        var xc = puck.center.x;
-        var yc = puck.center.y;
+        var puck = this.puck;
+        var xc = puck.pos.x;
+        var yc = puck.pos.y;
         var r = puck.r;
-        var xr = puck.center.x + puck.velocity.x;
-        var yr = puck.center.y + puck.velocity.y;
+        var xr = puck.pos.x + puck.velocity.x;
+        var yr = puck.pos.y + puck.velocity.y;
 
         var x = xc + ((r * (xr - xc)) / (Math.sqrt(Math.pow(xr - xc, 2) + Math.pow(yr - yc, 2))));
         var y = yc + ((r * (yr - yc)) / (Math.sqrt(Math.pow(xr - xc, 2) + Math.pow(yr - yc, 2))));
