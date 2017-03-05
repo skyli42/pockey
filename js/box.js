@@ -9,4 +9,32 @@ module.exports = class Box{
 	draw(canvas, color){
 		//tbd
 	}
+	collides(circle){
+		return collidesAngled(circle, 0);
+	}
+	collidesAngled(circle, theta){
+		var centerX = this.x+width/2;
+		var centerY = this.y+height/2;
+		var unrotatedCircleX = Math.cos(theta) * (circle.center.x - centerX) - Math.sin(theta)*(circle.center.y - centerY) + centerX;
+		var unrotatedCircleY = Math.sin(theta) * (circle.center.x - centerX) + Math.cos(theta) * (circle.y - centerY) + centerY;
+
+		var closestX, closestY;
+		var rectX = this.x;
+		var rectY = this.y + height;
+
+		if(unrotatedCircleX < rectX) closestX = rectX;
+		else if(unrotatedCircleX  > rectX + this.width) closestX = rectX + this.width;
+		else closestX = unrotatedCircleX;
+
+		if(unrotatedCircleY < rectY){
+			closestY = rectY;
+		}
+		else if(unrotatedCircleY > rectY - this.height) closestY = rectY - this.height;
+		else closestY = unrotatedCircleY;
+
+		var collision = false;
+		var distance = Math.sqrt(Math.pow(unrotatedCircleX-rectX,2)+Math.pow(unrotatedCircleY-rectY, 2));
+		if (distance < circle.radius) collision = true;
+		return collision;
+	}
 }

@@ -40,6 +40,14 @@ function puckCollision(){
 			}
 		}
 	}
+	for(var i = 0; i < Rink.goals.length; i++){
+		var goal = Rink.goals[i];
+		console.log("puck collides with scoreBox " + goal.side + " ? " + goal.scoreBox.collides(puck.circle));
+		console.log("puck collides with bottomBox " + goal.side + " ? " + goal.bottomBox.collides(puck.circle));
+		console.log("puck collides with leftBox " + goal.side + " ? " + goal.leftBox.collides(puck.circle));
+		console.log("puck collides with rightBox " + goal.side + " ? " + goal.rightBox.collides(puck.circle));
+
+	}
 
 
 }

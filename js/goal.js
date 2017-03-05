@@ -1,10 +1,10 @@
 var Box = require('./box');
 require('./rink');
 module.exports = class Goal{
-	constructor(frontLeft, bottomLeft, frontRight, bottomRight, rink, side){
-		this.frontLeft = frontLeft;
+	constructor(topLeft, bottomLeft, topRight, bottomRight, rink, side){
+		this.topLeft = topLeft;
 		this.bottomLeft = bottomLeft;
-		this.frontRight = frontRight;
+		this.topRight = topRight;
 		this.bottomRight = bottomRight;
 		this.scoreBox = new Box(bottomLeft.x, bottomLeft.y, Math.abs(bottomRight.x - bottomLeft.x), Math.abs(topLeft.y - bottomLeft.y));
 		if(side == "left"){
