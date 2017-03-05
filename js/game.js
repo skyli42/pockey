@@ -12,13 +12,18 @@ module.exports = class Game {
     	this.score = 0;
     }
     update(){
-    	//move players+puck
-    	// console.log("players moved")
-    	//collide
-    	// console.log("collision")
+    	
     }
-    addPlayer(socket.client.id){
-        var player = new Player();
+    movePlayer(id, data){
+        var player = players.get(socket.client.id);
+        //update for player
+    }
+    addPlayer(id){
+        var player = new Player(new Point(2*r, 2*r), 0, r/10, '');
+        players.set(id, player);
+    }
+    removePlayer(id){
+        players.delete(socket.client.id);
     }
     // draw(canvas) {
     // 	this.rink.draw(canvas);

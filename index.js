@@ -16,27 +16,29 @@ app.get('/display', function(req, res){
 app.get('/player', function(req, res){
 	res.sendFile(__dirname+"/assets/Player.html");
 })
-
+var started = false;
 io.on('connection', function(socket) {
     console.log('a user connected');
+    if(!started)start();
+    game.addPlayer(socket.client.id);
+    socket.on('disconnect', function(){
+        removePlayer(socket.client.id);
+    })
+    socket.on('update', function(msg){
+    	game.movePlayer(socket.client.id, msg);
+    });
+});
+
+function start(){
     setInterval(function() {
         game.update();
+
         // var send = {};
         // send.draw = game.rink.draw;
         // console.log(JSON.stringify(send))
         socket.emit('update', game);
     }, 1000 / 60);
-    socket.on('update', function(msg){
-<<<<<<< HEAD
-    	console.log(msg.dX + " " + msg.dY)    
-    });
-=======
-    	
-    })
->>>>>>> 08cb5f1d0d93d14574a2c24dd30637492b4b8364
-});
-
-
+}
 
 
 

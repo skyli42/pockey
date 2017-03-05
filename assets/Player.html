@@ -40,11 +40,11 @@
 			}, 1/30 * 1000);
 			socket.on('update', function(){
 				var send = {};
-			send.alpha = alpha;
-			send.a = a;
-			send.dX = joystick.deltaX();
-			send.dY = joystick.deltaY();
-			socket.emit('update', send);
+				send.alpha = alpha;
+				send.a = a;
+				send.dX = joystick.deltaX();
+				send.dY = joystick.deltaY();
+				socket.emit('update', send);
 			})
 			
 		</script>
