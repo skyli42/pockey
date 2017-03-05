@@ -9,4 +9,15 @@ module.exports = class Vector{
 	direction(){
 		return Math.atan2(this.y, this.x);
 	}
+	dotProduct(v2){
+		return this.x*v2.x + this.y+v2.y;
+	}
+	multiply(v2){
+		this.x*=v2.x;
+		this.y*=v2.y;
+	}
+	subtract(v2){
+		this.x -= v2.x;
+		this.y -= v2.y;
+	}
 }
