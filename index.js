@@ -19,17 +19,13 @@ app.get('/player', function(req, res) {
 var started = false;
 io.on('connection', function(socket) {
     console.log('a user connected');
-
+    setInterval(function() {
+        game.update();
+        socket.emit('update', game);
+    }, 1000 / 60);
     socket.on("new player", function() {
         game.addPlayer(socket.client.id);
-        if (!started) {
-            started = true;
-            setInterval(function() {
-                game.update();
-                socket.emit('update', game);
-            }, 1000 / 60);
-
-        }
+        console.log("hi")
     })
     socket.on('disconnect', function() {
         game.removePlayer(socket.client.id);

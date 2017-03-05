@@ -16,17 +16,13 @@ module.exports = class Game {
         function updatePlayer(value, key, map){
             var player = value;
             player.move();
-            console.log(player.pos)
+            // console.log(player.pos)
         }
         this.players.forEach(updatePlayer);
     	
     }
     movePlayer(id, data){
         var player = this.players.get(id);
-<<<<<<< HEAD
-=======
-        
->>>>>>> 8a78d87fc1353c6bbb47dfd988264bc5a6bb7177
         //update for player
         var dx = data.dx;
         var dy = data.dy;

@@ -5,6 +5,7 @@ var dimensions = {
 console.log(dimensions)
 $('#canvas').css(dimensions).prop(dimensions);
 var socket = io();
+
 function drawPuck(ctx, puck, scale) {
     ctx.beginPath();
     ctx.arc(puck.pos.x * scale, puck.pos.y * scale, puck.r * scale, 0, 2 * Math.PI);
@@ -105,27 +106,28 @@ function drawRink(ctx, rink, scale) {
     ctx.lineWidth = 10;
     ctx.stroke();
 }
-function drawPlayers(ctx, players, scale){
-    players.forEach(function(value, key, map){
-        console.log(value);
-        ctx.beginPath();
-        ctx.arc(value.pos.x*scale, value.pos.y*scale, value.r * scale, 0, 2 * Math.PI);
-        ctx.stroke();
+// function drawPlayers(ctx, players, scale){
+//     players.forEach(function(value, key, map){
+//         console.log(value);
+//         ctx.beginPath();
+//         ctx.arc(value.pos.x*scale, value.pos.y*scale, value.r * scale, 0, 2 * Math.PI);
+//         ctx.stroke();
         
-        ctx.save();
-        //stick
-        ctx.translate(value.pos.x, value.pos.y);
-        ctx.rotate(value.angle);
+//         ctx.save();
+//         //stick
+//         ctx.translate(value.pos.x, value.pos.y);
+//         ctx.rotate(value.angle);
 
-        ctx.rect(value.stick.pos.x-value.pos.x, value.stick.pos.y-value.pos.y, value.stick.width, value.stick.height);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0,0,value.r,0,2*Math.PI);
-        //circle
-        ctx.restore();
-    })
-}
+//         ctx.rect(value.stick.pos.x-value.pos.x, value.stick.pos.y-value.pos.y, value.stick.width, value.stick.height);
+//         ctx.stroke();
+//         ctx.beginPath();
+//         ctx.arc(0,0,value.r,0,2*Math.PI);
+//         //circle
+//         ctx.restore();
+//     })
+// }
 socket.on('update', function(msg) {
+    console.log("hi")
     var game = msg;
     var puck = game.puck
     var players = game.players;
@@ -136,5 +138,5 @@ socket.on('update', function(msg) {
     var scale = canvas.width / game.rink.width;
     drawPuck(ctx, puck, scale);
     drawRink(ctx, rink, scale);
-    drawPlayers(ctx, players, scale);
+    // drawPlayers(ctx, players, scale);
 })
