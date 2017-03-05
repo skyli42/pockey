@@ -7,7 +7,7 @@ module.exports = class Game {
     	this.players = [];
     	this.rink = new Rink();
     	this.r = 500;
-    	this.puck = new Puck(new Point(4700/2, 2000/2), this.r);
+    	this.puck = new Puck(new Point(4700/2, 2000/2), this.r/20);
     	this.score = 0;
     }
     update(){

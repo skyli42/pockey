@@ -10,8 +10,12 @@ app.use(express.static("./assets"));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-
-console.log(util.inspect(game.rink.draw.toString(), {depth: null, maxArrayLength: null}))
+app.get('/display', function(req, res){
+	res.sendFile(__dirname+"/assets/Display.html");
+})
+app.get('/player', function(req, res){
+	res.sendFile(__dirname+"/assets/Player.html");
+})
 
 io.on('connection', function(socket) {
     console.log('a user connected');
@@ -20,7 +24,7 @@ io.on('connection', function(socket) {
         // var send = {};
         // send.draw = game.rink.draw;
         // console.log(JSON.stringify(send))
-        socket.emit('update', JSON.stringify(send));
+        socket.emit('update', game);
     }, 1000 / 60);
 });
 

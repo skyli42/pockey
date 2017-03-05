@@ -12,8 +12,54 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/js/materialize.min.js"></script>
 		<canvas id="canvas">
-			
+		
 		</canvas>
 		<script type="text/javascript" src="/js/main.js"></script>
+		<script>
+		var dimensions = {
+    			width: $( window ).width(),
+    			height: $( window ).height()
+			};
+			console.log(dimensions)
+			$('#canvas').css(dimensions).prop(dimensions);
+			var socket = io();
+			function drawPuck(ctx, puck, scale){
+				ctx.beginPath();
+				ctx.arc(puck.pos.x*scale, puck.pos.y*scale,puck.r*scale,0,2*Math.PI);
+				ctx.stroke();
+			}
+			function drawRink(ctx, rink, scale){
+				//semicircles
+				ctx.beginPath();
+				for(var i=0; i<rink.circles.length; i++){
+					var cur = rink.circles[i];
+					var dQ = [3, 2, 1, 0];
+					var curQuad = dQ[cur.quad-1];
+					ctx.arc(cur.center.x*scale,cur.center.y*scale,cur.radius*scale,curQuad*1/2*Math.PI,1/2*Math.PI, true);
+				}
+				ctx.stroke()
+				var boxes = rink.boxes;
+				var midLength = boxes[0].width*scale;
+				var midHeight = boxes[0].height*scale;
+				var sideLength = boxes[1].width*scale;
+				var sideHeight = boxes[1].height*scale;
+				ctx.beginPath();
+				ctx.moveTo(rink.r*scale,0);
+				ctx.lineTo((rink.width-rink.r)*scale, 0);
+				ctx.stroke();
+				//walls
+			}
+			socket.on('update', function(msg){
+				var game = msg;
+				var puck = game.puck
+				var players = game.players;
+				var rink = game.rink;
+				var canvas  = document.getElementById("canvas");
+				var ctx = canvas.getContext("2d");
+				var scale = canvas.width/game.rink.width;
+				drawPuck(ctx, puck, scale);
+				drawRink(ctx, rink, scale);
+			})
+		</script>
 	</body>
 </html>
