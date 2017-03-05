@@ -10,7 +10,6 @@ module.exports = class Player{
 		this.stick = new Box(new Point(this.pos.x-(this.r*Math.sqrt(2)/4), this.pos.y+(this.r*Math.sqrt(2)/2)), this.r*Math.sqrt(2), this.r*3*Math.sqrt(2)/4);
 		this.stickVelocity = 0;
 		this.velocity = new Vector(0, 0);
-		this.id = id;
 	}
 	setAngle(angle){
 		this.angle = angle;
