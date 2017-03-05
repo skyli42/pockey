@@ -10,31 +10,32 @@ app.use(express.static("./assets"));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
-app.get('/display', function(req, res){
-	res.sendFile(__dirname+"/assets/Display.html");
+app.get('/display', function(req, res) {
+    res.sendFile(__dirname + "/assets/Display.html");
 })
-app.get('/player', function(req, res){
-	res.sendFile(__dirname+"/assets/Player.html");
+app.get('/player', function(req, res) {
+    res.sendFile(__dirname + "/assets/Player.html");
 })
 var started = false;
 io.on('connection', function(socket) {
     console.log('a user connected');
-    if(!started){
-    	 setInterval(function() {
-        game.update();
 
-        // var send = {};
-        // send.draw = game.rink.draw;
-        // console.log(JSON.stringify(send))
-        socket.emit('update', game);
-    }, 1000 / 60);
-    }
-    game.addPlayer(socket.client.id);
-    socket.on('disconnect', function(){
+    socket.on("new player", function() {
+        game.addPlayer(socket.client.id);
+        if (!started) {
+            started = true;
+            setInterval(function() {
+                game.update();
+                socket.emit('update', game);
+            }, 1000 / 60);
+
+        }
+    })
+    socket.on('disconnect', function() {
         game.removePlayer(socket.client.id);
     })
-    socket.on('update', function(msg){
-    	game.movePlayer(socket.client.id, msg);
+    socket.on('update', function(msg) {
+        game.movePlayer(socket.client.id, msg);
     });
 });
 
