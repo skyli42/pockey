@@ -26,7 +26,11 @@ io.on('connection', function(socket) {
         // console.log(JSON.stringify(send))
         socket.emit('update', game);
     }, 1000 / 60);
+    socket.on('update', function(msg){
+    	
+    }
 });
+
 
 
 
