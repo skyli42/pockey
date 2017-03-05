@@ -12,6 +12,11 @@ function draw(canvas){
 }
 function collision(){
 	puckCollision();
+	for(var i = 0; i < players.length; i++){
+		for(var j = i+1; j < players.length; j++){
+			console.log("player " + players[i].id + " collides with player " + players[j].id + " ? " + players[i].collision.collidesBox(players[j].collision));
+		}
+	}
 }
 function puckCollision(){
 	var y = puck.center.y;
@@ -50,12 +55,12 @@ function puckCollision(){
 
 	}
 	for(var i = 0; i < players.length; i++){
+		shot(players[i]);
 		console.log("puck collides with stick of " +players[i].id + " ? " + players[i].stick.collidesAngled(puck.circle, players[i].angle));
 	}
-	for(var i = 0; i < players.length; i++){
-		for(var j = i+1; j < players.length; j++){
-			console.log("player " + players[i].id + " collides with player " + players[j].id + " ? " + players[i].collision.collidesBox(players[j].collision));
-		}
-	}
+	
+
+}
+function shot(player){
 
 }
