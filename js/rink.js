@@ -1,6 +1,6 @@
 var Circle = require("./circle")
 var Box = require("./box")
-
+var Point = require('./point')
 module.exports = class Rink{
 	constructor(){
 		this.width = 4700;
@@ -9,13 +9,13 @@ module.exports = class Rink{
 		this.circles = [];
 		this.boxes = [];
 		this.goals = [];
-		circles.push(new Circle(this.r, this.r, this.r));
-		circles.push(new Circle(this.r, this.height - this.r, this.r));
-		circles.push(new Circle(this.width - this.r, this.r, this.r));
-		circles.push(new Circle(this.width-this.r, this.height-this.r, this.r));
-		boxes.push(new Box(this.r, 0, this.width - 2*this.r, this.height)); //center box
-		boxes.push(new Box(0, this.r, this.r, this.r*2));
-		boxes.push(new Box(this.width-this.r, this.r, this.r, this.r*2));
+		circles.push(new Circle(new Point(this.r, this.r), this.r, 3));
+		circles.push(new Circle(new Point(this.r, this.height - this.r), this.r, 2));
+		circles.push(new Circle(new Point(this.width - this.r, this.r), this.r, 4));
+		circles.push(new Circle(new Point(this.width-this.r, this.height-this.r), this.r, 1));
+		boxes.push(new Box(new Point(this.r, 0), this.width - 2*this.r, this.height)); //center box
+		boxes.push(new Box(new Point(0, this.r), this.r, this.r*2));
+		boxes.push(new Box(new Point(this.width-this.r, this.r), this.r, this.r*2));
 	}
 	draw(canvas){
 		for(var i =0; i<4; i++){

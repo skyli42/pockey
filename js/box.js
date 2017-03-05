@@ -1,7 +1,8 @@
 module.exports = class Box{
-	constructor(x, y, width, height){
-		this.x = x;
-		this.y = y;
+	constructor(botLeft, width, height){
+		this.botLeft = botLeft
+		this.x = botLeft.x;
+		this.y = botLeft.y;
 		this.width = width;
 		this.height = height;
 	}

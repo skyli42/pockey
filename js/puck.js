@@ -1,4 +1,4 @@
-var Circle require('./circle')
+var Circle = require('./circle')
 module.exports = class Puck{
 	constructor(pos, r){
 		this.pos = pos;

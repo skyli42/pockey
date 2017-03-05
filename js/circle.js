@@ -1,8 +1,9 @@
 require('./point')
 module.exports = class Circle{
-	constructor(center radius){
+	constructor(center,radius, quadrant){
 		this.center = center;
 		this.radius = radius;
+		this.quadrant = quadrant;
 	}
 	distanceToPoint(point){
 		//abs(sqrt((x1-h)^2+(y1-k)^2)-r)
