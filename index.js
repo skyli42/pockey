@@ -3,7 +3,6 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-var players=new Map();
 
 app.use(express.static("./assets"));
 app.get('/', function(req, res){
