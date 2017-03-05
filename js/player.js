@@ -1,7 +1,7 @@
 var Vector = require('./vector')
 var Point = require('./point')
 module.exports = class Player{
-	constructor(pos, team, r){
+	constructor(pos, team, r, id){
 		this.pos = pos;
 		this.team = team;
 		this.angle = 0;
@@ -9,6 +9,7 @@ module.exports = class Player{
 		this.collision = new Box(new Point(this.pos.x-(this.r*Math.sqrt(2)/2), this.pos.y-(this.r*Math.sqrt(2)/2)), this.r*Math.sqrt(2), this.r*Math.sqrt(2));
 		this.stick = new Box(new Point(this.pos.x-(this.r*Math.sqrt(2)/4), this.pos.y+(this.r*Math.sqrt(2)/2)), this.r*Math.sqrt(2), this.r*3*Math.sqrt(2)/4);
 		this.velocity = new Vector(0, 0);
+		this.id = id;
 	}
 	setAngle(angle){
 		this.angle = angle;

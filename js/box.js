@@ -9,6 +9,10 @@ module.exports = class Box{
 	draw(canvas, color){
 		//tbd
 	}
+	collidesBox(box){
+		if (this.x < box.x + box.width && this.x + this.width > box.x && this.y < box.y + box.height && this.y + this.height > box.height) return true;
+		else return false;
+	}
 	collides(circle){
 		return collidesAngled(circle, 0);
 	}

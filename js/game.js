@@ -1,10 +1,11 @@
 var Rink = require("./rink");
 var Puck = require("./puck");
 var puck = new Puck(); //finish
-
+var players = [];
 function setup(){
 
 	setInterval(draw(), 1000/60);
+
 }
 function draw(canvas){
 
@@ -48,6 +49,13 @@ function puckCollision(){
 		console.log("puck collides with rightBox " + goal.side + " ? " + goal.rightBox.collides(puck.circle));
 
 	}
-
+	for(var i = 0; i < players.length; i++){
+		console.log("puck collides with stick of " +players[i].id + " ? " + players[i].stick.collidesAngled(puck.circle, players[i].angle));
+	}
+	for(var i = 0; i < players.length; i++){
+		for(var j = i+1; j < players.length; j++){
+			console.log("player " + players[i].id + " collides with player " + players[j].id + " ? " + players[i].collision.collidesBox(players[j].collision));
+		}
+	}
 
 }
