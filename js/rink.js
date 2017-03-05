@@ -16,6 +16,9 @@ module.exports = class Rink{
 		boxes.push(new Box(new Point(this.r, 0), this.width - 2*this.r, this.height)); //center box
 		boxes.push(new Box(new Point(0, this.r), this.r, this.r*2));
 		boxes.push(new Box(new Point(this.width-this.r, this.r), this.r, this.r*2));
+		goals.push(new Goal(new Point(), new Point(), new Point(), new Point(), this, "left"));
+		goals.push(new Goal(new Point(), new Point(), new Point(), new Point(), this, "right"))
+
 	}
 	draw(canvas){
 		for(var i =0; i<4; i++){
