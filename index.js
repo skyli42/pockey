@@ -13,6 +13,7 @@ io.on('connection', function(socket){
 	console.log('a user connected');
 	
 });
+var Game = require("./js/game");
 
 
 server.listen(app.listen(process.env.PORT || 0118, function() {

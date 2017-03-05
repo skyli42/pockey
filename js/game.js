@@ -1,5 +1,5 @@
-var Rink = require("rink");
-var Puck = require("puck");
+var Rink = require("./rink");
+var Puck = require("./puck");
 
 function setup(){
 
