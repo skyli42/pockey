@@ -28,7 +28,7 @@ io.on('connection', function(socket) {
     }, 1000 / 60);
     socket.on('update', function(msg){
     	
-    }
+    })
 });
 
 
