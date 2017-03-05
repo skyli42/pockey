@@ -1,4 +1,4 @@
-require('circle')
+require('./circle')
 module.exports = class Puck{
 	constructor(circle){
 		this.circle = circle;

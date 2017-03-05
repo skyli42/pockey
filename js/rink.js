@@ -1,5 +1,5 @@
-var Circle = require("circle")
-var Box = require("box")
+var Circle = require("./circle")
+var Box = require("./box")
 
 module.exports = class Rink{
 	constructor(){
