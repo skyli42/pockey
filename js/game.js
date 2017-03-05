@@ -2,9 +2,10 @@ var Rink = require("./rink");
 var Puck = require("./puck");
 var Point = require("./point");
 var Vector = require("./vector");
+var Player = require('./player');
 module.exports = class Game {
     constructor(){
-    	this.players = [];
+    	this.players = new Map();
     	this.rink = new Rink();
     	this.r = 500;
     	this.puck = new Puck(new Point(4700/2, 2000/2), this.r/20);
@@ -16,7 +17,9 @@ module.exports = class Game {
     	//collide
     	// console.log("collision")
     }
-
+    addPlayer(socket.client.id){
+        var player = new Player();
+    }
     // draw(canvas) {
     // 	this.rink.draw(canvas);
     // 	for(var i=0; i<this.players.length; i++){
