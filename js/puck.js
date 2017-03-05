@@ -4,7 +4,7 @@ module.exports = class Puck{
 		this.circle = circle;
 		this.mass = 20; // random const, change if need be
 	}
-	draw(){
-		this.circle.draw();
+	draw(canvas){
+		this.circle.draw(canvas);
 	}
 }
