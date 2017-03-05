@@ -112,6 +112,8 @@ function drawPlayers(ctx, players, scale){
     // players.forEach(function(value, key, map){
     for(var i in players){        
         var value = players[i];
+        console.log(value.stick)
+        // console.log(value.pos.x*scale)
         ctx.beginPath();
         ctx.arc(value.pos.x*scale, value.pos.y*scale, value.r * scale, 0, 2 * Math.PI);
         ctx.stroke();
@@ -121,7 +123,7 @@ function drawPlayers(ctx, players, scale){
         ctx.translate(value.pos.x, value.pos.y);
         ctx.rotate(value.angle);
 
-        ctx.rect(value.stick.pos.x-value.pos.x, value.stick.pos.y-value.pos.y, value.stick.width, value.stick.height);
+        ctx.rect(value.stick.botLeft.x-value.pos.x, value.stick.botLeft.y-value.pos.y, value.stick.width, value.stick.height);
         ctx.stroke();
         ctx.beginPath();
         ctx.arc(0,0,value.r,0,2*Math.PI);
@@ -131,12 +133,17 @@ function drawPlayers(ctx, players, scale){
     // })
 }
 socket.on('update', function(msg) {
+
     var game = msg;
     var puck = game.puck
     var players = game.players;
     var rink = game.rink;
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
+    
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     var scale = canvas.width / game.rink.width;
     drawPuck(ctx, puck, scale);
     drawRink(ctx, rink, scale);
