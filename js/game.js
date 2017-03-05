@@ -11,11 +11,19 @@ module.exports = class Game {
     	this.puck = new Puck(new Point(4700/2, 2000/2), this.r/20);
     	this.score = 0;
     }
+    
     update(){
+        function updatePlayer(value, key, map){
+            var player = value;
+            player.move();
+            console.log(player.pos)
+        }
+        this.players.forEach(updatePlayer);
     	
     }
     movePlayer(id, data){
-        var player = this.players.get(socket.client.id);
+        var player = this.players.get(id);
+        
         //update for player
         var dx = data.dx;
         var dy = data.dy;
@@ -23,11 +31,12 @@ module.exports = class Game {
         var a = data.a;
         player.stickVelocity = a;
         player.angle = alpha/180 * Math.PI;
-        player.velocity.x = dx/100;
-        player.velocity.y = dy/100;
+        player.velocity.x = dx/100.0;
+        player.velocity.y = dy/100.0;
     }
     addPlayer(id){
-        var player = new Player(new Point(2*this.r, 2*this.r), 0, this.r/10, '');
+        console.log(this.r*2)
+        var player = new Player(new Point(2*this.r, 2*this.r), 0, this.r/10);
         this.players.set(id, player);
     }
     removePlayer(id){

@@ -12,6 +12,9 @@
 		</div> 
 		<script src="/js/virtualjoystick.js"></script>
 		<script>
+			window.onload = function(){
+				socket.emit("new player");
+			}
 			var socket = io();
 			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
 	
