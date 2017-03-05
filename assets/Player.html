@@ -43,7 +43,7 @@
 			send.a = a;
 			send.dX = joystick.deltaX();
 			send.dY = joystick.deltaY();
-			socket.emit(send);
+			socket.emit('update', send);
 			})
 			
 		</script>
