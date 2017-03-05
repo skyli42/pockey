@@ -15,7 +15,7 @@ module.exports = class Game {
     	
     }
     movePlayer(id, data){
-        var player = this.players.get(socket.client.id);
+        var player = this.players.get(id);
         //update for player
         var dx = data.dx;
         var dy = data.dy;
