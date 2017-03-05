@@ -122,7 +122,7 @@ function drawPlayers(ctx, players, scale){
         //stick
         ctx.translate(value.pos.x, value.pos.y);
         ctx.rotate(value.angle);
-
+        ctx.strokeStyle("#000000")
         ctx.rect(value.stick.botLeft.x-value.pos.x, value.stick.botLeft.y-value.pos.y, value.stick.width, value.stick.height);
         ctx.stroke();
         ctx.beginPath();
@@ -140,7 +140,7 @@ socket.on('update', function(msg) {
     var rink = game.rink;
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
-    
+
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 

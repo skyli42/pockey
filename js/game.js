@@ -69,7 +69,6 @@ module.exports = class Game {
                 console.log("bottom wall collision");
                 this.players[it].velocity.x = 0;
                                 this.players[it].velocity.y = 0;
-
             }
             // next, check collision with left wall
             if (x - r <= 0 && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
