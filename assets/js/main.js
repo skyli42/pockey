@@ -109,8 +109,9 @@ function drawRink(ctx, rink, scale) {
     ctx.stroke();
 }
 function drawPlayers(ctx, players, scale){
-    players.forEach(function(value, key, map){
-        console.log(value);
+    // players.forEach(function(value, key, map){
+    for(var i in players){        
+        var value = players[i];
         ctx.beginPath();
         ctx.arc(value.pos.x*scale, value.pos.y*scale, value.r * scale, 0, 2 * Math.PI);
         ctx.stroke();
@@ -126,7 +127,8 @@ function drawPlayers(ctx, players, scale){
         ctx.arc(0,0,value.r,0,2*Math.PI);
         //circle
         ctx.restore();
-    })
+    }
+    // })
 }
 socket.on('update', function(msg) {
     var game = msg;
