@@ -24,7 +24,14 @@
 				<a class="waves-effect waves-light btn col s1" id="button" href="/Player.html">Player</a>
 			</div>
 		</div>
-	</div>
-	<body>
-	</body>
+		<script>
+			var socket = io();
+			socket.on('update', function(msg){
+				var game = msg;
+				console.log(game);
+				// game.rink.draw();
+				// console.log(msg);
+			})
+		</script>
+</body>
 </html>

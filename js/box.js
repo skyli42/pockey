@@ -7,7 +7,7 @@ module.exports = class Box{
 		this.height = height;
 	}
 	draw(canvas, color){
-		//tbd
+		console.log("draw Box")
 	}
 	collidesBox(box){
 		if (this.x < box.x + box.width && this.x + this.width > box.x && this.y < box.y + box.height && this.y + this.height > box.height) return true;

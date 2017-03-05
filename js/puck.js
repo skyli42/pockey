@@ -1,12 +1,12 @@
 var Circle = require('./circle')
+var Vector = require('./vector');
 module.exports = class Puck{
 	constructor(pos, r){
 		this.pos = pos;
 		this.r = r;
 		this.circle = new Circle(pos, r);
 		this.mass = 20; // random const, change if need be
-		this.velocity.x = 0;
-		this.velocity.y = 0;
+		this.velocity = new Vector(0, 0);
 	}
 	draw(canvas){
 		this.circle.draw(canvas);
