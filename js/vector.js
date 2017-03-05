@@ -20,4 +20,8 @@ module.exports = class Vector{
 		this.x -= v2.x;
 		this.y -= v2.y;
 	}
+	add(v2){
+		this.x+=v2.x;
+		this.y+=v2.y;
+	}
 }

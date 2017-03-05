@@ -87,8 +87,10 @@ module.exports = class Game {
             console.log("puck collides with rightBox " + goal.side + " ? " + goal.rightBox.collides(puck.circle));
         }
         for (var i = 0; i < players.length; i++) {
-            shot(players[i]);
             console.log("puck collides with stick of " + players[i].id + " ? " + players[i].stick.collidesAngled(puck.circle, players[i].angle));
+            if(players[i].stick.collidesAngled(puck.circle, players[i].angle)){
+            	shot(players[i]);
+            }
         }
 
     }
@@ -128,7 +130,10 @@ module.exports = class Game {
 
 
     }
+
     shot(player) {
     	var stickVector = new Vector(player.stickVelocity*Math.cos(player.angle), player.stickVelocity*Math.sin(player.angle));
+        puck.velocity.add(stickVector);
+
     }
 }
