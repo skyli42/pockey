@@ -17,16 +17,17 @@ module.exports = class Player{
 		this.pos.x += this.velocity.x;
 		this.pos.y += this.velocity.y;
 	}
-	// draw(canvas){
-	// 	canvas.save();
-	// 	//stick
-	// 	canvas.translate(this.pos.x, this.pos.y);
-	// 	canvas.rotate(angle);
+	draw(canvas){
+		canvas.save();
+		//stick
+		canvas.translate(this.pos.x, this.pos.y);
+		canvas.rotate(angle);
 
-	// 	canvas.rect(this.stick.pos.x-this.pos.x, this.stick.pos.y-this.pos.y, this.stick.width, this.stick.height);
-	// 	canvas.stroke();
-
-	// 	//circle
-	// 	canvas.restore();
-	// }
+		canvas.rect(this.stick.pos.x-this.pos.x, this.stick.pos.y-this.pos.y, this.stick.width, this.stick.height);
+		canvas.stroke();
+		ctx.beginPath();
+		ctx.arc(0,0,this.r,0,2*Math.PI);
+		//circle
+		canvas.restore();
+	}
 }
