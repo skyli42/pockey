@@ -15,15 +15,23 @@ module.exports = class Game {
     	
     }
     movePlayer(id, data){
-        var player = players.get(socket.client.id);
+        var player = this.players.get(socket.client.id);
         //update for player
+        var dx = data.dx;
+        var dy = data.dy;
+        var alpha = data.alpha;
+        var a = data.a;
+        player.stickVelocity = a;
+        player.angle = alpha/180 * Math.PI;
+        player.velocity.x = dx/100;
+        player.velocity.y = dy/100;
     }
     addPlayer(id){
-        var player = new Player(new Point(2*r, 2*r), 0, r/10, '');
-        players.set(id, player);
+        var player = new Player(new Point(2*this.r, 2*this.r), 0, this.r/10, '');
+        this.players.set(id, player);
     }
     removePlayer(id){
-        players.delete(socket.client.id);
+        this.players.delete(id);
     }
     // draw(canvas) {
     // 	this.rink.draw(canvas);

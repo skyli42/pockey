@@ -19,18 +19,8 @@ app.get('/player', function(req, res){
 var started = false;
 io.on('connection', function(socket) {
     console.log('a user connected');
-    if(!started)start();
-    game.addPlayer(socket.client.id);
-    socket.on('disconnect', function(){
-        removePlayer(socket.client.id);
-    })
-    socket.on('update', function(msg){
-    	game.movePlayer(socket.client.id, msg);
-    });
-});
-
-function start(){
-    setInterval(function() {
+    if(!started){
+    	 setInterval(function() {
         game.update();
 
         // var send = {};
@@ -38,7 +28,15 @@ function start(){
         // console.log(JSON.stringify(send))
         socket.emit('update', game);
     }, 1000 / 60);
-}
+    }
+    game.addPlayer(socket.client.id);
+    socket.on('disconnect', function(){
+        game.removePlayer(socket.client.id);
+    })
+    socket.on('update', function(msg){
+    	game.movePlayer(socket.client.id, msg);
+    });
+});
 
 
 

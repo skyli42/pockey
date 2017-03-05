@@ -1,5 +1,6 @@
 var Vector = require('./vector')
 var Point = require('./point')
+var Box = require('./box')
 module.exports = class Player{
 	constructor(pos, team, r, id){
 		this.pos = pos;
