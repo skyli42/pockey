@@ -5,5 +5,7 @@ module.exports = class Box{
 		this.width = width;
 		this.height = height;
 	}
-	
+	draw(){
+		//tbd
+	}
 }
