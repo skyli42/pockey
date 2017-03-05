@@ -110,14 +110,14 @@ module.exports = class Game {
                     case 3: // bottom left circle
                         if (x <= this.rink.r && x >= 0 && y >= 0 && y <= this.rink.r) {
                            // console.log("yeah quad 3 collision");
-                            this.players[it].velocity.x -= 0;
-                                this.players[it].velocity.y -= 0;
+                            this.players[it].velocity.x += 10;
+                                this.players[it].velocity.y += 10;
                         }
                     case 4: // bottom right circle
                         if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= 0 && y <= this.rink.r) {
                         //    console.log("yeah quad 4 collision");
-                            this.players[it].velocity.x = 0;
-                                this.players[it].velocity.y = 0;
+                            this.players[it].velocity.x -= 10;
+                                this.players[it].velocity.y += 10;
                         }
                 }
             }
