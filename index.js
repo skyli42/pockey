@@ -27,8 +27,8 @@ io.on('connection', function(socket) {
         socket.emit('update', game);
     }, 1000 / 60);
     socket.on('update', function(msg){
-    	
-    }
+    	console.log(msg.dX + " " + msg.dY)    
+    });
 });
 
 
