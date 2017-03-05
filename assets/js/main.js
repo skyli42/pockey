@@ -9,6 +9,8 @@ var socket = io();
 function drawPuck(ctx, puck, scale) {
     ctx.beginPath();
     ctx.arc(puck.pos.x * scale, puck.pos.y * scale, puck.r * scale, 0, 2 * Math.PI);
+    ctx.fillStyle = "black";
+    ctx.fill();
     ctx.stroke();
 }
 function drawRink(ctx, rink, scale) {
