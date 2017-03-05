@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/skyli42/pockey/issues"
   },
-  "homepage": "https://github.com/skyli42/pockey#readme"
+  "homepage": "https://github.com/skyli42/pockey#readme",
+  "dependencies": {
+    "express": "^4.15.0"
+  }
 }
