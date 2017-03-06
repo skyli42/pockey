@@ -16,6 +16,6 @@ module.exports = class Puck{
 		this.pos.y+=this.velocity.y;
 		this.velocity.x*=.9;
 		this.velocity.y*=.9;
-		this.circle = new Circle(pos, r);
+		this.circle = new Circle(this.pos, this.r);
 	}
 }

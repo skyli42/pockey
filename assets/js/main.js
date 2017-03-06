@@ -112,21 +112,19 @@ function drawPlayers(ctx, players, scale){
     // players.forEach(function(value, key, map){
     for(var i in players){        
         var value = players[i];
-        console.log(value.stick)
-        // console.log(value.pos.x*scale)
+        
         ctx.beginPath();
         ctx.arc(value.pos.x*scale, value.pos.y*scale, value.r * scale, 0, 2 * Math.PI);
         ctx.stroke();
         
         ctx.save();
         //stick
-        ctx.translate(value.pos.x, value.pos.y);
+        ctx.translate( value.pos.x*scale,value.pos.y*scale);
+        // console.log(value.angle);
         ctx.rotate(value.angle);
-        ctx.strokeStyle("#000000")
-        ctx.rect(value.stick.botLeft.x-value.pos.x, value.stick.botLeft.y-value.pos.y, value.stick.width, value.stick.height);
+
+        ctx.rect(-(value.stick.botLeft.x-value.pos.x)*scale, -(value.stick.botLeft.y-value.pos.y)*scale, value.stick.width*scale, value.stick.height*scale);
         ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0,0,value.r,0,2*Math.PI);
         //circle
         ctx.restore();
     }

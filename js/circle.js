@@ -10,6 +10,8 @@ module.exports = class Circle{
 		var x = point.x;
 		var y = point.y;
 		var r= this.radius;
-		return Math.abs(Math.sqrt(Math.pow(x-this.x, 2)+Math.pow(y-this.y, 2))-r)
+		var x1 = this.center.x;
+		var y1 = this.center.y;
+		return Math.abs(Math.sqrt(Math.pow(x1-x, 2)+Math.pow(y1-y, 2))-r)
 	}
 }

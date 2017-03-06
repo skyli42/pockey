@@ -13,25 +13,23 @@ module.exports = class Game {
     }
 
     update() {
-        for(var attr in this.players){
+        for (var attr in this.players) {
             var player = this.players[attr];
             this.collision();
             player.move();
-            
         }
+        this.puck.move();
     }
     movePlayer(id, data) {
         // console.log('move')
         var player = this.players[id];
         //update for player
-        if (data.dX != undefined&&player!= undefined) {
+        if (data.dX != undefined && player != undefined) {
             var dx = data.dX;
             var dy = data.dY;
-            var alpha = data.alpha;
+            var alpha = 180 - ((data.alpha) * 3);
             var a = data.a;
-            player.stickVelocity = a;
-            console.log(player.velocity)
-            console.log(player.pos)
+            // player.stickVelocity = a;
             player.angle = alpha / 180 * Math.PI;
             player.velocity.x = dx / 100.0;
             player.velocity.y = dy / 100.0;
@@ -50,133 +48,168 @@ module.exports = class Game {
         var players = this.players;
         for (var it in this.players) {
             for (var iq in this.players) {
-                if(it != iq)
-                if (players[it].collision.collidesBox(players[iq].collision)) {
-                    players[it].velocity.x = 0;
-                    players[it].velocity.y = 0;
-                    players[iq].velocity.x = 0;
-                    players[iq].velocity.y = 0;
-                }
+                if (it != iq)
+                    if (players[it].collision.collidesBox(players[iq].collision)) {
+                        players[it].velocity.x = 0;
+                        players[it].velocity.y = 0;
+                        players[iq].velocity.x = 0;
+                        players[iq].velocity.y = 0;
+                    }
             }
         }
     }
-    playerCollision(){
-        for(var it in this.players){
+    playerCollision() {
+        for (var it in this.players) {
+            var cur = this.players[it];
             var x = this.players[it].pos.x;
             var y = this.players[it].pos.y;
-            var r = this.players[it].pos.r;
-            if (y - r <= 0 && x - r >= this.rink.r && x + r <= this.rink.width - this.rink.r) {
+            var r = this.players[it].r;
+            if (y - r <= 0) {
                 console.log("bottom wall collision");
-                this.players[it].velocity.x = 0;
-                                this.players[it].velocity.y = 0;
+                this.players[it].velocity.x = -this.players[it].velocity.x;
+                this.players[it].velocity.y = -this.players[it].velocity.y;
+                this.players[it].pos.y += 50;
             }
             // next, check collision with left wall
-            if (x - r <= 0 && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
+            if (x - r <= 0 && y - r >= this.rink.r) {
                 console.log("left wall collision");
-                  this.players[it].velocity.x = 0;
-                                this.players[it].velocity.y = 0;
+                this.players[it].velocity.x = 0;
+                this.players[it].velocity.y = 0;
+                this.players[it].pos.x += 50;
             }
             // next, check collision with top wall
-            if (y + r >= this.rink.height && x - r >= this.rink.r && x + r <= this.rink.width - this.rink.r) {
+            if (y + r >= this.rink.height) {
                 console.log("top wall collision");
-                  this.players[it].velocity.x = 0;
-                                this.players[it].velocity.y = 0;
+                this.players[it].velocity.x = 0;
+                this.players[it].velocity.y = 0;
+                this.players[it].pos.y -= 50;
             }
             // next, check collision with right wall
-            if (x + r >= this.rink.width && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
-
+            if (x + r >= this.rink.width) {
                 console.log("right wall collision");
-                  this.players[it].velocity.x = 0;
-                                this.players[it].velocity.y = 0;
+                this.players[it].velocity.x = 0;
+                this.players[it].velocity.y = 0;
+                this.players[it].pos.x -= 50;
             }
-        }
-        for (var i = 0; i < this.rink.circles.length; i++) {
-            var circle = this.rink.circles[i];
-            if (circle.distanceToPoint(this.players[it].pos) <= r) {
-                //console.log("collided with circle?");
-                switch (quadrant) {
-                    case 1: // top right circle
-                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= this.rink.r * 3 && y <= this.rink.height) {
-                            //console.log("yeah, quad 1 collision");
-                            this.players[it].pos.x -= 10;
+
+            for (var i = 0; i < this.rink.circles.length; i++) {
+                var circle = this.rink.circles[i];
+                // console.log(circle.distanceToPoint(cur.pos))
+                if (circle.distanceToPoint(this.players[it].pos) <= r) {
+                    console.log("collided with circle?");
+                    switch (circle.quadrant) {
+                        case 1: // top right circle
+                            if (x >= this.rink.width - this.rink.r && y >= this.rink.r * 3) {
+                                //console.log("yeah, quad 1 collision");
+                                this.players[it].pos.x -= 10;
                                 this.players[it].pos.y -= 10;
-                        }
-                    case 2: // top left circle
-                        if (x <= this.rink.r && x >= 0 && y >= this.rink.r && y <= this.rink.r * 2) {
-                           // console.log("yeah quad 2 collision");
-                            this.players[it].velocity.x += 10;
-                                this.players[it].velocity.y -= 10;
-                        }
-                    case 3: // bottom left circle
-                        if (x <= this.rink.r && x >= 0 && y >= 0 && y <= this.rink.r) {
-                           // console.log("yeah quad 3 collision");
-                            this.players[it].velocity.x += 10;
+                            }
+                        case 2: // top left circle
+                            // console.log("slslsssls")
+                            if (x <= this.rink.r && y >= this.rink.height - this.rink.r) {
+                                this.players[it].velocity.x = 0;
+                                this.players[it].velocity.y = 0;
+                                cur.velocity.x += 10;
+                                cur.velocity.y -= 10;
+                            }
+                        case 3: // bottom left circle
+                            if (x <= this.rink.r && x >= 0 && y >= 0 && y <= this.rink.r) {
+                                // console.log("yeah quad 3 collision");
+                                this.players[it].velocity.x += 10;
                                 this.players[it].velocity.y += 10;
-                        }
-                    case 4: // bottom right circle
-                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= 0 && y <= this.rink.r) {
-                        //    console.log("yeah quad 4 collision");
-                            this.players[it].velocity.x -= 10;
+                            }
+                        case 4: // bottom right circle
+                            if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= 0 && y <= this.rink.r) {
+                                //    console.log("yeah quad 4 collision");
+                                this.players[it].velocity.x -= 10;
                                 this.players[it].velocity.y += 10;
-                        }
+                            }
+                    }
                 }
             }
         }
+
     }
     puckCollision() {
         var puck = this.puck;
         var y = this.puck.pos.y;
         var x = this.puck.pos.x;
         var r = this.puck.r;
-        // first, check collision with bottom wall
-        if (y - r <= 0 && x - r >= this.rink.r && x + r <= this.rink.width - this.rink.r) {
+        if (y - r <= 0) {
             console.log("bottom wall collision");
-            this.puckDeflect();
+            puck.velocity.x = puck.velocity.x;
+            puck.velocity.y = -puck.velocity.y;
+            puck.pos.y += 50;
         }
         // next, check collision with left wall
-        if (x - r <= 0 && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
+        if (x - r <= 0 && y - r >= this.rink.r) {
             console.log("left wall collision");
-            this.puckDeflect();
+           puck.velocity.x = -puck.velocity.x;
+           // puck.velocity.y = 0;
+           puck.pos.x += 50;
         }
         // next, check collision with top wall
-        if (y + r >= this.rink.height && x - r >= this.rink.r && x + r <= this.rink.width - this.rink.r) {
+        if (y + r >= this.rink.height) {
             console.log("top wall collision");
-            this.puckDeflect();
+            // puck.velocity.x = 0;
+            puck.velocity.y = -puck.velocity.y;
+            puck.pos.y -= 50;
         }
         // next, check collision with right wall
-        if (x + r >= this.rink.width && y - r >= this.rink.r && y + r <= this.rink.height - this.rink.r) {
-
+        if (x + r >= this.rink.width) {
             console.log("right wall collision");
-            this.puckDeflect();
+            puck.velocity.x = -puck.velocity.x;
+            // puck.velocity.y = puck.veloc;
+            puck.pos.x -= 50;
         }
         for (var i = 0; i < this.rink.circles.length; i++) {
             var circle = this.rink.circles[i];
             if (circle.distanceToPoint(puck.pos) <= r) {
-                console.log("collided with circle?");
-                switch (quadrant) {
+                // console.log("collided with circle?");
+                switch (circle.quadrant) {
                     case 1: // top right circle
-                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= this.rink.r * 3 && y <= this.rink.height) console.log("yeah, quad 1 collision");
+                        if (x >= this.rink.width - this.rink.r && y >= this.rink.r * 3) {
+                            //console.log("yeah, quad 1 collision");
+                            puck.velocity.x = -puck.velocity.x;
+                            puck.pos.x -= 10;
+                            puck.velocity.y = -puck.velocity.y;
+                            puck.pos.y -= 10;
+                        }
                     case 2: // top left circle
-                        if (x <= this.rink.r && x >= 0 && y >= this.rink.r && y <= this.rink.r * 2) console.log("yeah quad 2 collision");
+                        // console.log("slslsssls")
+                        if (x <= this.rink.r && y >= this.rink.height - this.rink.r) {
+                            puck.velocity.x = -puck.velocity.x;
+                            // puck.pos.x -= 10;
+                            puck.velocity.y = -puck.velocity.y;
+                            // puck.pos.y -= 10;
+                        }
                     case 3: // bottom left circle
-                        if (x <= this.rink.r && x >= 0 && y >= 0 && y <= this.rink.r) console.log("yeah quad 3 collision");
+                        if (x <= this.rink.r && x >= 0 && y >= 0 && y <= this.rink.r) {
+                            // console.log("yeah quad 3 collision");
+                            puck.velocity.x = -puck.velocity.x;
+                            // puck.pos.x -= 10;
+                            puck.velocity.y = -puck.velocity.y;
+                            // puck.pos.y -= 10;
+                        }
                     case 4: // bottom right circle
-                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= 0 && y <= this.rink.r) console.log("yeah quad 4 collision");
+                        if (x <= this.rink.width && x >= this.rink.width - this.rink.r && y >= 0 && y <= this.rink.r) {
+                            //    console.log("yeah quad 4 collision");
+                            puck.velocity.x = -puck.velocity.x;
+                            // puck.pos.x -= 10;
+                            puck.velocity.y = -puck.velocity.y;
+                            // puck.pos.y -= 10;
+                        }
                 }
             }
         }
-        for (var i = 0; i < this.rink.goals.length; i++) {
-            var goal = this.rink.goals[i];
-           /* console.log("puck collides with scoreBox " + goal.side + " ? " + goal.scoreBox.collides(puck.circle));
-            console.log("puck collides with bottomBox " + goal.side + " ? " + goal.bottomBox.collides(puck.circle));
-            console.log("puck collides with leftBox " + goal.side + " ? " + goal.leftBox.collides(puck.circle));
-            console.log("puck collides with rightBox " + goal.side + " ? " + goal.rightBox.collides(puck.circle));*/
-        }
         for (var i in this.players) {
             var players = this.players;
-           // console.log("puck collides with stick of " + players[i].id + " ? " + players[i].stick.collidesAngled(puck.circle, players[i].angle));
+            // console.log("puck collides with stick of " + players[i].id + " ? " + players[i].stick.collidesAngled(puck.circle, players[i].angle));
+
             if (players[i].stick.collidesAngled(puck.circle, players[i].angle)) {
-                shot(players[i]);
+                
+                console.log(this.puck.velocity)
+                this.shot(players[i]);
             }
         }
 
@@ -220,7 +253,8 @@ module.exports = class Game {
 
     shot(player) {
         var stickVector = new Vector(player.stickVelocity * Math.cos(player.angle), player.stickVelocity * Math.sin(player.angle));
-        puck.velocity.add(stickVector);
 
+        this.puck.velocity.add(stickVector);
+        console.log(this.puck.velocity)
     }
 }
