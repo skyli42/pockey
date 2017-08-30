@@ -65,8 +65,6 @@ function drawRink(ctx, rink, scale) {
     ctx.lineWidth = 10;
     ctx.stroke();
     //walls
-
-
     //goals
     var r = rink.r;
     ctx.beginPath();

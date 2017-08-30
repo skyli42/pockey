@@ -2,14 +2,15 @@
 <html>
 	<head>
 		<title>Pockey</title>
-		<link type = "text/css" rel = "stylesheet" href = "/css/main.css">
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link type = "text/css" rel = "stylesheet" href = "/static/css/main.css">
+		
 		<!--Import materialize.css-->
-		<link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
 	</head>
 	<body id="body">
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="/js/materialize.min.js"></script>
+		<script type="text/javascript" src="/static/js/materialize.min.js"></script>
 		<script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
 		<div class="container">
 			<div class="row">
@@ -25,12 +26,14 @@
 			</div>
 		</div>
 		<script>
-			var socket = io();
+			var socket = io.connect('http://' + document.domain + ':' + location.port);
+			socket.on('connect', function() {
+				console.log("connected")
+        		socket.emit('connection');
+    		});
 			socket.on('update', function(msg){
 				var game = msg;
 				console.log(game);
-				// game.rink.draw();
-				// console.log(msg);
 			})
 		</script>
 </body>

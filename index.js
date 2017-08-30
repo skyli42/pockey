@@ -23,7 +23,7 @@ io.on('connection', function(socket) {
         game.update();
         socket.emit('update', game);
     }, 1000 / 60);
-    socket.on("new player", function() {
+    socket.on("new player", function() {    
         game.addPlayer(socket.client.id);
     })
     socket.on('disconnect', function() {
